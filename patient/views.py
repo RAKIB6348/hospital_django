@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Appointment
 from department.models import Department
@@ -35,6 +35,36 @@ def appointment_form(request):
         'departments': departments,
         'doctors': doctors,
     })
+
+
+def appointment_edit(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    if request.method == 'POST':
+        appointment.patient_name = request.POST['patient_name']
+        appointment.patient_age = request.POST['patient_age']
+        appointment.gender = request.POST['gender']
+        appointment.address = request.POST['address']
+        appointment.department = request.POST['department']
+        appointment.doctor = request.POST['doctor']
+        appointment.date = request.POST['date']
+        appointment.time = request.POST['time']
+        appointment.phone = request.POST['phone']
+        appointment.reason = request.POST['reason']
+        appointment.save()
+        return redirect('appointment_list')
+    departments = Department.objects.all()
+    doctors = Doctor.objects.all()
+    return render(request, 'patient/appointment_edit.html', {
+        'appointment': appointment,
+        'departments': departments,
+        'doctors': doctors,
+    })
+
+
+def appointment_delete(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    appointment.delete()
+    return redirect('appointment_list')
 
 
 def department(request):

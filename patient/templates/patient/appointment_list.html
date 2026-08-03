@@ -22,6 +22,7 @@
                 <th>Time</th>
                 <th>Phone</th>
                 <th>Reason</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -37,9 +38,13 @@
                 <td>{{ appointment.time }}</td>
                 <td>{{ appointment.phone }}</td>
                 <td>{{ appointment.reason }}</td>
+                <td>
+                    <a href="{% url 'appointment_edit' appointment.id %}" style="background: #0d47a1; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Edit</a>
+                    <a href="{% url 'appointment_delete' appointment.id %}" style="background: #d32f2f; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Delete</a>
+                </td>
             </tr>
             {% empty %}
-            <tr><td colspan="10">No appointments yet.</td></tr>
+            <tr><td colspan="11">No appointments yet.</td></tr>
             {% endfor %}
         </tbody>
     </table>
