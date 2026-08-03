@@ -4,6 +4,12 @@ from django.db import models
 class Appointment(models.Model):
     patient_name = models.CharField(max_length=100)
     patient_age = models.PositiveIntegerField()
+    gender = models.CharField(max_length=10, choices=[
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other'),
+    ], default='male')
+    address = models.CharField(max_length=255, blank=True)
     department = models.CharField(max_length=100)
     doctor = models.CharField(max_length=100)
     date = models.DateField()

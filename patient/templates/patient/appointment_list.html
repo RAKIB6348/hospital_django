@@ -14,6 +14,8 @@
             <tr>
                 <th>Patient</th>
                 <th>Age</th>
+                <th>Gender</th>
+                <th>Address</th>
                 <th>Department</th>
                 <th>Doctor</th>
                 <th>Date</th>
@@ -27,6 +29,8 @@
             <tr>
                 <td>{{ appointment.patient_name }}</td>
                 <td>{{ appointment.patient_age }}</td>
+                <td>{{ appointment.get_gender_display }}</td>
+                <td>{{ appointment.address }}</td>
                 <td>{{ appointment.department }}</td>
                 <td>{{ appointment.doctor }}</td>
                 <td>{{ appointment.date }}</td>
@@ -35,7 +39,7 @@
                 <td>{{ appointment.reason }}</td>
             </tr>
             {% empty %}
-            <tr><td colspan="8">No appointments yet.</td></tr>
+            <tr><td colspan="10">No appointments yet.</td></tr>
             {% endfor %}
         </tbody>
     </table>

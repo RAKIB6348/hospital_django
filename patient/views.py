@@ -19,6 +19,8 @@ def appointment_form(request):
         Appointment.objects.create(
             patient_name=request.POST['patient_name'],
             patient_age=request.POST['patient_age'],
+            gender=request.POST['gender'],
+            address=request.POST['address'],
             department=request.POST['department'],
             doctor=request.POST['doctor'],
             date=request.POST['date'],
