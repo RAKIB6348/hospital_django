@@ -13,10 +13,14 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Gender</th>
                 <th>Specialization</th>
                 <th>Department</th>
                 <th>Phone</th>
                 <th>Email</th>
+                <th>Present Address</th>
+                <th>Permanent Address</th>
+                <th>Education</th>
                 <th>Experience (yrs)</th>
                 <th>Available</th>
             </tr>
@@ -25,15 +29,19 @@
             {% for doctor in doctors %}
             <tr>
                 <td>{{ doctor.name }}</td>
+                <td>{{ doctor.get_gender_display }}</td>
                 <td>{{ doctor.specialization }}</td>
                 <td>{{ doctor.department }}</td>
                 <td>{{ doctor.phone }}</td>
                 <td>{{ doctor.email }}</td>
+                <td>{{ doctor.present_address }}</td>
+                <td>{{ doctor.permanent_address }}</td>
+                <td>{{ doctor.education }}</td>
                 <td>{{ doctor.experience_years }}</td>
                 <td>{% if doctor.available %}Yes{% else %}No{% endif %}</td>
             </tr>
             {% empty %}
-            <tr><td colspan="7">No doctors registered yet.</td></tr>
+            <tr><td colspan="11">No doctors registered yet.</td></tr>
             {% endfor %}
         </tbody>
     </table>

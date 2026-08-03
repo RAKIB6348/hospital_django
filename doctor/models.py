@@ -3,10 +3,18 @@ from django.db import models
 
 class Doctor(models.Model):
     name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=10, choices=[
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other'),
+    ], default='male')
     specialization = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
     phone = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
+    present_address = models.CharField(max_length=255, blank=True)
+    permanent_address = models.CharField(max_length=255, blank=True)
+    education = models.CharField(max_length=255, blank=True)
     experience_years = models.PositiveIntegerField(default=0)
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
