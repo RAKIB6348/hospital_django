@@ -72,21 +72,9 @@
         <h2>Hospital</h2>
         <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
         <a href="#" class="{% if request.resolver_match.url_name == 'patients' %}active{% endif %}">Patients</a>
-        <div class="menu-item">
-            <a class="{% if request.resolver_match.app_name == 'department' %}active{% endif %}">Department</a>
-            <div class="dropdown">
-                <a href="{% url 'department:department_list' %}">Department List</a>
-                <a href="{% url 'department:department_add' %}">Add Department</a>
-            </div>
-        </div>
+        <a href="{% url 'department:department_list' %}" class="{% if request.resolver_match.app_name == 'department' %}active{% endif %}">Department</a>
         <a href="{% url 'appointment_list' %}" class="{% if request.resolver_match.url_name == 'appointment_list' %}active{% endif %}">Appointments</a>
-        <div class="menu-item">
-            <a class="{% if request.resolver_match.app_name == 'doctor' %}active{% endif %}">Doctors</a>
-            <div class="dropdown">
-                <a href="{% url 'doctor:doctor_list' %}">Doctor List</a>
-                <a href="{% url 'doctor:doctor_add' %}">Add Doctor</a>
-            </div>
-        </div>
+        <a href="{% url 'doctor:doctor_list' %}" class="{% if request.resolver_match.app_name == 'doctor' %}active{% endif %}">Doctors</a>
         <a href="#">Reports</a>
     </aside>
     <div class="main">
