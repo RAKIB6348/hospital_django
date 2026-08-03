@@ -1,0 +1,29 @@
+{% extends 'patient/base.html' %}
+
+{% block content %}
+<div class="stats">
+    <div class="stat"><h2>124</h2><p>Total Patients</p></div>
+    <div class="stat"><h2>45</h2><p>Appointments Today</p></div>
+    <div class="stat"><h2>18</h2><p>Doctors On Duty</p></div>
+    <div class="stat"><h2>32</h2><p>Available Beds</p></div>
+</div>
+<div class="card">
+    <h2>Recent Patients</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Department</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>John Doe</td><td>34</td><td>Cardiology</td><td>Admitted</td></tr>
+            <tr><td>2</td><td>Jane Smith</td><td>28</td><td>Neurology</td><td>Discharged</td></tr>
+            <tr><td>3</td><td>Alex Brown</td><td>45</td><td>Orthopedics</td><td>Admitted</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

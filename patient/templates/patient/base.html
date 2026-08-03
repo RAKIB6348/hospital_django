@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hospital Dashboard{% endblock %}</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: sans-serif; margin: 0; background: #f4f6f9; color: #333; display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 220px;
+            background: #0d47a1;
+            color: white;
+            padding-top: 20px;
+            flex-shrink: 0;
+        }
+        .sidebar h2 { text-align: center; font-size: 18px; padding: 0 10px; margin: 0 0 20px; }
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-left: 4px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active { background: #1565c0; border-left-color: #ffc107; }
+        .main { flex: 1; }
+        .main header { background: #1565c0; color: white; padding: 18px 24px; }
+        .main header h1 { margin: 0; font-size: 22px; }
+        .container { padding: 24px; }
+        .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .stats { display: flex; gap: 20px; }
+        .stat { flex: 1; background: white; border-radius: 8px; padding: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .stat h2 { margin: 0; color: #0d47a1; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #e3f2fd; }
+        form label { display: block; margin: 12px 0 4px; font-weight: bold; }
+        form input, form select, form textarea {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;
+        }
+        form button {
+            margin-top: 20px; padding: 10px 24px; background: #0d47a1; color: white;
+            border: none; border-radius: 4px; cursor: pointer; font-size: 15px;
+        }
+        form button:hover { background: #1565c0; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+        .menu-item {
+            position: relative;
+        }
+        .menu-item > a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+        .menu-item > a:hover, .menu-item > a.active { background: #1565c0; border-left-color: #ffc107; }
+        .dropdown { display: none; background: #0b3a85; }
+        .menu-item.open .dropdown { display: block; }
+        .dropdown a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px 10px 36px;
+        }
+        .dropdown a:hover { background: #1565c0; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Hospital</h2>
+        <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+        <a href="#" class="{% if request.resolver_match.url_name == 'patients' %}active{% endif %}">Patients</a>
+        <div class="menu-item">
+            <a class="{% if request.resolver_match.app_name == 'department' %}active{% endif %}">Department</a>
+            <div class="dropdown">
+                <a href="{% url 'department:department_list' %}">Department List</a>
+                <a href="{% url 'department:department_add' %}">Add Department</a>
+            </div>
+        </div>
+        <a href="{% url 'appointment_form' %}" class="{% if request.resolver_match.url_name == 'appointment_form' %}active{% endif %}">Appointments</a>
+        <div class="menu-item">
+            <a class="{% if request.resolver_match.app_name == 'doctor' %}active{% endif %}">Doctors</a>
+            <div class="dropdown">
+                <a href="{% url 'doctor:doctor_list' %}">Doctor List</a>
+                <a href="{% url 'doctor:doctor_add' %}">Add Doctor</a>
+            </div>
+        </div>
+        <a href="#">Reports</a>
+    </aside>
+    <div class="main">
+        <header>
+            <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+        </header>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.menu-item > a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                link.parentElement.classList.toggle('open');
+            });
+        });
+    </script>
+</body>
+</html>

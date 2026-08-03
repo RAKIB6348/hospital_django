@@ -1,0 +1,28 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Departments{% endblock %}
+{% block page_title %}Departments{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Hospital Departments</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Head Doctor</th>
+                <th>No. of Doctors</th>
+                <th>Available Beds</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Cardiology</td><td>Dr. A. Rahman</td><td>5</td><td>8</td></tr>
+            <tr><td>Neurology</td><td>Dr. S. Islam</td><td>4</td><td>6</td></tr>
+            <tr><td>Orthopedics</td><td>Dr. M. Hossain</td><td>3</td><td>5</td></tr>
+            <tr><td>Pediatrics</td><td>Dr. F. Akter</td><td>4</td><td>7</td></tr>
+            <tr><td>General Medicine</td><td>Dr. K. Chowdhury</td><td>6</td><td>10</td></tr>
+            <tr><td>Dermatology</td><td>Dr. N. Karim</td><td>2</td><td>3</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

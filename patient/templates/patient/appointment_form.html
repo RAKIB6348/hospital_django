@@ -1,0 +1,58 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Appointment Registration{% endblock %}
+{% block page_title %}Appointment Registration{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Register New Appointment</h2>
+    <form method="post" action="{% url 'appointment_form' %}">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div>
+                <label for="patient_name">Patient Name</label>
+                <input type="text" id="patient_name" name="patient_name" required>
+            </div>
+            <div>
+                <label for="patient_age">Age</label>
+                <input type="number" id="patient_age" name="patient_age" min="0" max="150" required>
+            </div>
+            <div>
+                <label for="department">Department</label>
+                <select id="department" name="department" required>
+                    <option value="">Select department</option>
+                    {% for department in departments %}
+                    <option value="{{ department.name }}">{{ department.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="doctor">Doctor</label>
+                <select id="doctor" name="doctor" required>
+                    <option value="">Select doctor</option>
+                    {% for doctor in doctors %}
+                    <option value="{{ doctor.name }}">{{ doctor.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div>
+                <label for="time">Time</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+            <div>
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            <div>
+                <label for="reason">Reason for Visit</label>
+                <input type="text" id="reason" name="reason">
+            </div>
+        </div>
+        <button type="submit">Book Appointment</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Add Doctor{% endblock %}
+{% block page_title %}Add Doctor{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Add New Doctor</h2>
+    <form method="post" action="{% url 'doctor:doctor_add' %}">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div>
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="specialization">Specialization</label>
+                <input type="text" id="specialization" name="specialization" required>
+            </div>
+            <div>
+                <label for="department">Department</label>
+                <select id="department" name="department" required>
+                    <option value="">Select department</option>
+                    <option>Cardiology</option>
+                    <option>Neurology</option>
+                    <option>Orthopedics</option>
+                    <option>Pediatrics</option>
+                    <option>General Medicine</option>
+                    <option>Dermatology</option>
+                </select>
+            </div>
+            <div>
+                <label for="experience_years">Experience (years)</label>
+                <input type="number" id="experience_years" name="experience_years" min="0" required>
+            </div>
+            <div>
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email">
+            </div>
+        </div>
+        <div>
+            <label><input type="checkbox" name="available" checked> Available</label>
+        </div>
+        <button type="submit">Save Doctor</button>
+    </form>
+</div>
+{% endblock %}
