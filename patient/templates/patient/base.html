@@ -75,15 +75,8 @@
         <a href="{% url 'department:department_list' %}" class="{% if request.resolver_match.app_name == 'department' %}active{% endif %}">Department</a>
         <a href="{% url 'appointment_list' %}" class="{% if request.resolver_match.url_name == 'appointment_list' %}active{% endif %}">Appointments</a>
         <a href="{% url 'doctor:doctor_list' %}" class="{% if request.resolver_match.app_name == 'doctor' %}active{% endif %}">Doctors</a>
-        <div class="menu-item">
-            <a class="{% if request.resolver_match.app_name == 'config' %}active{% endif %}">Wards & Beds</a>
-            <div class="dropdown">
-                <a href="{% url 'config:ward_list' %}">Ward List</a>
-                <a href="{% url 'config:ward_add' %}">Add Ward</a>
-                <a href="{% url 'config:bed_list' %}">Bed List</a>
-                <a href="{% url 'config:bed_add' %}">Add Bed</a>
-            </div>
-        </div>
+        <a href="{% url 'config:ward_list' %}" class="{% if request.resolver_match.url_name == 'ward_list' %}active{% endif %}">Ward</a>
+        <a href="{% url 'config:bed_list' %}" class="{% if request.resolver_match.url_name == 'bed_list' %}active{% endif %}">Bed</a>
         <a href="#">Reports</a>
     </aside>
     <div class="main">
