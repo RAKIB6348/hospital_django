@@ -9,6 +9,11 @@ def dashboard(request):
     return render(request, 'patient/dashboard.html')
 
 
+def appointment_list(request):
+    appointments = Appointment.objects.all().order_by('-date', '-time')
+    return render(request, 'patient/appointment_list.html', {'appointments': appointments})
+
+
 def appointment_form(request):
     if request.method == 'POST':
         Appointment.objects.create(
@@ -21,7 +26,7 @@ def appointment_form(request):
             phone=request.POST['phone'],
             reason=request.POST['reason'],
         )
-        return redirect('dashboard')
+        return redirect('appointment_list')
     departments = Department.objects.all()
     doctors = Doctor.objects.all()
     return render(request, 'patient/appointment_form.html', {

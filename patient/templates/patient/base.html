@@ -79,7 +79,7 @@
                 <a href="{% url 'department:department_add' %}">Add Department</a>
             </div>
         </div>
-        <a href="{% url 'appointment_form' %}" class="{% if request.resolver_match.url_name == 'appointment_form' %}active{% endif %}">Appointments</a>
+        <a href="{% url 'appointment_list' %}" class="{% if request.resolver_match.url_name == 'appointment_list' %}active{% endif %}">Appointments</a>
         <div class="menu-item">
             <a class="{% if request.resolver_match.app_name == 'doctor' %}active{% endif %}">Doctors</a>
             <div class="dropdown">

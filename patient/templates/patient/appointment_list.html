@@ -1,0 +1,43 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Appointments{% endblock %}
+{% block page_title %}Appointments{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">All Appointments</h2>
+        <a href="{% url 'appointment_form' %}" style="background: #0d47a1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">+ Add Appointment</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Age</th>
+                <th>Department</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Phone</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.patient_name }}</td>
+                <td>{{ appointment.patient_age }}</td>
+                <td>{{ appointment.department }}</td>
+                <td>{{ appointment.doctor }}</td>
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.time }}</td>
+                <td>{{ appointment.phone }}</td>
+                <td>{{ appointment.reason }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8">No appointments yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
