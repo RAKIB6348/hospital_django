@@ -2,27 +2,41 @@
 
 {% block content %}
 <div class="stats">
-    <div class="stat"><h2>124</h2><p>Total Patients</p></div>
-    <div class="stat"><h2>45</h2><p>Appointments Today</p></div>
-    <div class="stat"><h2>18</h2><p>Doctors On Duty</p></div>
-    <div class="stat"><h2>32</h2><p>Available Beds</p></div>
+    <div class="stat" style="border-top: 4px solid #1565c0;"><i class="fas fa-calendar-check" style="color: #1565c0;"></i><h2>{{ total_appointments }}</h2><p>Total Appointments</p></div>
+    <div class="stat" style="border-top: 4px solid #2e7d32;"><i class="fas fa-user-md" style="color: #2e7d32;"></i><h2>{{ total_doctors }}</h2><p>Total Doctors</p></div>
+    <div class="stat" style="border-top: 4px solid #f9a825;"><i class="fas fa-check-circle" style="color: #f9a825;"></i><h2>{{ available_doctors }}</h2><p>Doctors Available</p></div>
+    <div class="stat" style="border-top: 4px solid #6a1b9a;"><i class="fas fa-building" style="color: #6a1b9a;"></i><h2>{{ total_departments }}</h2><p>Departments</p></div>
+</div>
+<div class="stats">
+    <div class="stat" style="border-top: 4px solid #00838f;"><i class="fas fa-door-open" style="color: #00838f;"></i><h2>{{ total_wards }}</h2><p>Wards</p></div>
+    <div class="stat" style="border-top: 4px solid #ef6c00;"><i class="fas fa-bed" style="color: #ef6c00;"></i><h2>{{ total_beds }}</h2><p>Total Beds</p></div>
+    <div class="stat" style="border-top: 4px solid #2e7d32;"><i class="fas fa-check-circle" style="color: #2e7d32;"></i><h2>{{ available_beds }}</h2><p>Available Beds</p></div>
+    <div class="stat" style="border-top: 4px solid #c62828;"><i class="fas fa-users" style="color: #c62828;"></i><h2>{{ total_appointments }}</h2><p>Appointments</p></div>
 </div>
 <div class="card">
-    <h2>Recent Patients</h2>
+    <h2>Recent Appointments</h2>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
+                <th>Patient</th>
                 <th>Department</th>
-                <th>Status</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
             </tr>
         </thead>
         <tbody>
-            <tr><td>1</td><td>John Doe</td><td>34</td><td>Cardiology</td><td>Admitted</td></tr>
-            <tr><td>2</td><td>Jane Smith</td><td>28</td><td>Neurology</td><td>Discharged</td></tr>
-            <tr><td>3</td><td>Alex Brown</td><td>45</td><td>Orthopedics</td><td>Admitted</td></tr>
+            {% for appointment in recent_appointments %}
+            <tr>
+                <td>{{ appointment.patient_name }}</td>
+                <td>{{ appointment.department }}</td>
+                <td>{{ appointment.doctor }}</td>
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.time }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No appointments yet.</td></tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

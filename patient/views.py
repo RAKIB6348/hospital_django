@@ -1,12 +1,23 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Appointment
+from config.models import Bed, Ward
 from department.models import Department
 from doctor.models import Doctor
 
 
 def dashboard(request):
-    return render(request, 'patient/dashboard.html')
+    context = {
+        'total_appointments': Appointment.objects.count(),
+        'total_doctors': Doctor.objects.count(),
+        'available_doctors': Doctor.objects.filter(available=True).count(),
+        'total_departments': Department.objects.count(),
+        'total_wards': Ward.objects.count(),
+        'total_beds': Bed.objects.count(),
+        'available_beds': Bed.objects.filter(status='available').count(),
+        'recent_appointments': Appointment.objects.order_by('-date', '-time')[:5],
+    }
+    return render(request, 'patient/dashboard.html', context)
 
 
 def appointment_list(request):
