@@ -1,0 +1,44 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}User List{% endblock %}
+{% block page_title %}User List{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">All Users</h2>
+        <a href="{% url 'auth_user:user_add' %}" style="background: #0d47a1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">+ Add User</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.full_name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.get_role_display }}</td>
+                <td>{% if user.is_active %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <a href="{% url 'auth_user:user_edit' user.id %}" style="background: #0d47a1; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Edit</a>
+                    <a href="{% url 'auth_user:user_delete' user.id %}" style="background: #d32f2f; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7">No users added yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

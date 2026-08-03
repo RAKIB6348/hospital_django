@@ -73,7 +73,7 @@
     <aside class="sidebar">
         <h2>Hospital</h2>
         <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
-        <a href="#"><i class="fas fa-user"></i>User</a>
+        <a href="{% url 'auth_user:user_list' %}" class="{% if request.resolver_match.app_name == 'auth_user' %}active{% endif %}"><i class="fas fa-user"></i>User</a>
         <a href="#" class="{% if request.resolver_match.url_name == 'patients' %}active{% endif %}"><i class="fas fa-users"></i>Patients</a>
         <a href="{% url 'department:department_list' %}" class="{% if request.resolver_match.app_name == 'department' %}active{% endif %}"><i class="fas fa-building"></i>Department</a>
         <a href="{% url 'appointment_list' %}" class="{% if request.resolver_match.url_name == 'appointment_list' %}active{% endif %}"><i class="fas fa-calendar-check"></i>Appointments</a>
