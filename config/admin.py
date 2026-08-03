@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Bed, Ward
 
-# Register your models here.
+admin.site.register(Ward)
+admin.site.register(Bed)

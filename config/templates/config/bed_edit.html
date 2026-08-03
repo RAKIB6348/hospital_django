@@ -1,0 +1,38 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Edit Bed{% endblock %}
+{% block page_title %}Edit Bed{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Edit Bed</h2>
+    <form method="post" action="{% url 'config:bed_edit' bed.id %}">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div>
+                <label for="bed_number">Bed Number</label>
+                <input type="text" id="bed_number" name="bed_number" value="{{ bed.bed_number }}" required>
+            </div>
+            <div>
+                <label for="ward">Ward</label>
+                <select id="ward" name="ward" required>
+                    <option value="">Select ward</option>
+                    {% for ward in wards %}
+                    <option value="{{ ward.id }}" {% if ward.id == bed.ward.id %}selected{% endif %}>{{ ward.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="available" {% if bed.status == 'available' %}selected{% endif %}>Available</option>
+                    <option value="occupied" {% if bed.status == 'occupied' %}selected{% endif %}>Occupied</option>
+                    <option value="maintenance" {% if bed.status == 'maintenance' %}selected{% endif %}>Maintenance</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit">Update Bed</button>
+        <a href="{% url 'config:bed_list' %}" style="margin-top: 20px; display: inline-block; padding: 10px 24px; background: #d32f2f; color: white; text-decoration: none; border-radius: 4px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

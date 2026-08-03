@@ -1,0 +1,39 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Add Bed{% endblock %}
+{% block page_title %}Add Bed{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Add New Bed</h2>
+    <form method="post" action="{% url 'config:bed_add' %}">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div>
+                <label for="bed_number">Bed Number</label>
+                <input type="text" id="bed_number" name="bed_number" required>
+            </div>
+            <div>
+                <label for="ward">Ward</label>
+                <select id="ward" name="ward" required>
+                    <option value="">Select ward</option>
+                    {% for ward in wards %}
+                    <option value="{{ ward.id }}">{{ ward.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="">Select status</option>
+                    <option value="available">Available</option>
+                    <option value="occupied">Occupied</option>
+                    <option value="maintenance">Maintenance</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit">Save Bed</button>
+        <a href="{% url 'config:bed_list' %}" style="margin-top: 20px; display: inline-block; padding: 10px 24px; background: #d32f2f; color: white; text-decoration: none; border-radius: 4px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

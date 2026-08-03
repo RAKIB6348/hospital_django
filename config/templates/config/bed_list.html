@@ -1,0 +1,38 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Bed List{% endblock %}
+{% block page_title %}Bed List{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">All Beds</h2>
+        <a href="{% url 'config:bed_add' %}" style="background: #0d47a1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">+ Add Bed</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Bed Number</th>
+                <th>Ward</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bed in beds %}
+            <tr>
+                <td>{{ bed.bed_number }}</td>
+                <td>{{ bed.ward.name }}</td>
+                <td>{{ bed.get_status_display }}</td>
+                <td>
+                    <a href="{% url 'config:bed_edit' bed.id %}" style="background: #0d47a1; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Edit</a>
+                    <a href="{% url 'config:bed_delete' bed.id %}" style="background: #d32f2f; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No beds added yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
