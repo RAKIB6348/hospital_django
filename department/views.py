@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from doctor.models import Doctor
 from .models import Department
 
 
@@ -16,7 +17,8 @@ def department_add(request):
             available_beds=request.POST['available_beds'],
         )
         return redirect('department:department_list')
-    return render(request, 'department/department_add.html')
+    doctors = Doctor.objects.all()
+    return render(request, 'department/department_add.html', {'doctors': doctors})
 
 
 def department_edit(request, department_id):
@@ -28,7 +30,8 @@ def department_edit(request, department_id):
         department.available_beds = request.POST['available_beds']
         department.save()
         return redirect('department:department_list')
-    return render(request, 'department/department_edit.html', {'department': department})
+    doctors = Doctor.objects.all()
+    return render(request, 'department/department_edit.html', {'department': department, 'doctors': doctors})
 
 
 def department_delete(request, department_id):

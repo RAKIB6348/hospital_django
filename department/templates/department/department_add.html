@@ -15,7 +15,12 @@
             </div>
             <div>
                 <label for="head_doctor">Head Doctor</label>
-                <input type="text" id="head_doctor" name="head_doctor" required>
+                <select id="head_doctor" name="head_doctor" required>
+                    <option value="">Select doctor</option>
+                    {% for doctor in doctors %}
+                    <option value="{{ doctor.name }}">{{ doctor.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div>
                 <label for="number_of_doctors">No. of Doctors</label>
