@@ -16,6 +16,7 @@
                 <th>Head Doctor</th>
                 <th>No. of Doctors</th>
                 <th>Available Beds</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -25,9 +26,13 @@
                 <td>{{ department.head_doctor }}</td>
                 <td>{{ department.number_of_doctors }}</td>
                 <td>{{ department.available_beds }}</td>
+                <td>
+                    <a href="{% url 'department:department_edit' department.id %}" style="background: #0d47a1; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Edit</a>
+                    <a href="{% url 'department:department_delete' department.id %}" style="background: #d32f2f; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Delete</a>
+                </td>
             </tr>
             {% empty %}
-            <tr><td colspan="4">No departments added yet.</td></tr>
+            <tr><td colspan="5">No departments added yet.</td></tr>
             {% endfor %}
         </tbody>
     </table>
