@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hospital Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { box-sizing: border-box; }
         body { font-family: sans-serif; margin: 0; background: #f4f6f9; color: #333; display: flex; min-height: 100vh; }
@@ -22,6 +23,7 @@
             padding: 12px 20px;
             border-left: 4px solid transparent;
         }
+        .sidebar a i { width: 20px; margin-right: 10px; text-align: center; }
         .sidebar a:hover, .sidebar a.active { background: #1565c0; border-left-color: #ffc107; }
         .main { flex: 1; }
         .main header { background: #1565c0; color: white; padding: 18px 24px; }
@@ -70,14 +72,14 @@
 <body>
     <aside class="sidebar">
         <h2>Hospital</h2>
-        <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
-        <a href="#" class="{% if request.resolver_match.url_name == 'patients' %}active{% endif %}">Patients</a>
-        <a href="{% url 'department:department_list' %}" class="{% if request.resolver_match.app_name == 'department' %}active{% endif %}">Department</a>
-        <a href="{% url 'appointment_list' %}" class="{% if request.resolver_match.url_name == 'appointment_list' %}active{% endif %}">Appointments</a>
-        <a href="{% url 'doctor:doctor_list' %}" class="{% if request.resolver_match.app_name == 'doctor' %}active{% endif %}">Doctors</a>
-        <a href="{% url 'config:ward_list' %}" class="{% if request.resolver_match.url_name == 'ward_list' %}active{% endif %}">Ward</a>
-        <a href="{% url 'config:bed_list' %}" class="{% if request.resolver_match.url_name == 'bed_list' %}active{% endif %}">Bed</a>
-        <a href="#">Reports</a>
+        <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+        <a href="#" class="{% if request.resolver_match.url_name == 'patients' %}active{% endif %}"><i class="fas fa-users"></i>Patients</a>
+        <a href="{% url 'department:department_list' %}" class="{% if request.resolver_match.app_name == 'department' %}active{% endif %}"><i class="fas fa-building"></i>Department</a>
+        <a href="{% url 'appointment_list' %}" class="{% if request.resolver_match.url_name == 'appointment_list' %}active{% endif %}"><i class="fas fa-calendar-check"></i>Appointments</a>
+        <a href="{% url 'doctor:doctor_list' %}" class="{% if request.resolver_match.app_name == 'doctor' %}active{% endif %}"><i class="fas fa-user-md"></i>Doctors</a>
+        <a href="{% url 'config:ward_list' %}" class="{% if request.resolver_match.url_name == 'ward_list' %}active{% endif %}"><i class="fas fa-door-open"></i>Ward</a>
+        <a href="{% url 'config:bed_list' %}" class="{% if request.resolver_match.url_name == 'bed_list' %}active{% endif %}"><i class="fas fa-bed"></i>Bed</a>
+        <a href="#"><i class="fas fa-chart-bar"></i>Reports</a>
     </aside>
     <div class="main">
         <header>
