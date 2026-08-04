@@ -6,9 +6,21 @@
 {% block content %}
 <div class="card">
     <h2>Edit Doctor</h2>
-    <form method="post" action="{% url 'doctor:doctor_edit' doctor.id %}">
+    <form method="post" action="{% url 'doctor:doctor_edit' doctor.id %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-grid">
+            <div>
+                <label for="image" class="form-label fw-semibold">Profile Image</label>
+                <label for="image" id="profileUpload" class="profile-upload {% if doctor.image %}has-image{% endif %}">
+                    <span class="profile-placeholder">
+                        <i class="fas fa-user-plus fa-3x"></i>
+                        <span>Click to upload photo</span>
+                    </span>
+                    <img id="imagePreview" src="{% if doctor.image %}{{ doctor.image.url }}{% else %}data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23eef2f7'/%3E%3C/svg%3E{% endif %}" alt="Doctor photo preview">
+                    <span class="profile-overlay"><i class="fas fa-camera"></i>{% if doctor.image %}Change Photo{% else %}Upload Photo{% endif %}</span>
+                </label>
+                <input type="file" id="image" name="image" accept="image/*" class="d-none" onchange="previewDoctorImage(this)">
+            </div>
             <div>
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" value="{{ doctor.name }}" required>

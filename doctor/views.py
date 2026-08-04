@@ -10,6 +10,7 @@ def doctor_list(request):
 def doctor_add(request):
     if request.method == 'POST':
         Doctor.objects.create(
+            image=request.FILES.get('image'),
             name=request.POST['name'],
             gender=request.POST['gender'],
             specialization=request.POST['specialization'],
@@ -31,6 +32,8 @@ def doctor_add(request):
 def doctor_edit(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
     if request.method == 'POST':
+        if request.FILES.get('image'):
+            doctor.image = request.FILES['image']
         doctor.name = request.POST['name']
         doctor.gender = request.POST['gender']
         doctor.specialization = request.POST['specialization']

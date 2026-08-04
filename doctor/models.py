@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Doctor(models.Model):
+    image = models.ImageField(upload_to='doctor_images/', blank=True, null=True)
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=10, choices=[
         ('male', 'Male'),

@@ -12,6 +12,7 @@
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Specialization</th>
@@ -31,6 +32,15 @@
         <tbody>
             {% for doctor in doctors %}
             <tr>
+                <td>
+                    {% if doctor.image %}
+                    <img src="{{ doctor.image.url }}" alt="{{ doctor.name }}" style="width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 1px solid #e0e0e0; box-shadow: 0 1px 3px rgba(0,0,0,0.15);">
+                    {% else %}
+                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 6px; background: #e3f2fd; border: 1px solid #bbdefb;">
+                        <i class="fas fa-user-md" style="font-size: 20px; color: #0d47a1;"></i>
+                    </span>
+                    {% endif %}
+                </td>
                 <td>{{ doctor.name }}</td>
                 <td>{{ doctor.get_gender_display }}</td>
                 <td>{{ doctor.specialization }}</td>
@@ -56,7 +66,7 @@
                 </td>
             </tr>
             {% empty %}
-            <tr><td colspan="14">No doctors registered yet.</td></tr>
+            <tr><td colspan="15">No doctors registered yet.</td></tr>
             {% endfor %}
         </tbody>
     </table>

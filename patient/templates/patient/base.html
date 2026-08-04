@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hospital Dashboard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { box-sizing: border-box; }
@@ -132,6 +133,56 @@
             .stats { flex-wrap: wrap; }
             .stat { flex: 1 1 45%; }
         }
+
+        .profile-upload {
+            position: relative;
+            display: block;
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #f8fafc;
+            transition: border-color .2s ease, box-shadow .2s ease;
+            margin-bottom: 4px;
+        }
+        .profile-upload:hover {
+            border-color: #0d47a1;
+            box-shadow: 0 0 0 4px rgba(13, 71, 161, .12);
+        }
+        .profile-upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .profile-upload .profile-overlay {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, .55);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 10px;
+            text-align: center;
+            backdrop-filter: blur(2px);
+        }
+        .profile-upload .profile-overlay i { margin-right: 6px; }
+        .profile-upload .profile-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .profile-upload.has-image .profile-placeholder { display: none; }
     </style>
 </head>
 <body>
@@ -172,6 +223,18 @@
                 link.parentElement.classList.toggle('open');
             });
         });
+        function previewDoctorImage(input) {
+            var preview = document.getElementById('imagePreview');
+            var box = document.getElementById('profileUpload');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    box.classList.add('has-image');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 </body>
 </html>
