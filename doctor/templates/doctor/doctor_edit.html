@@ -53,12 +53,9 @@
                 <label for="department" class="field-label">Department</label>
                 <select id="department" name="department" required>
                     <option value="">Select department</option>
-                    <option {% if doctor.department == 'Cardiology' %}selected{% endif %}>Cardiology</option>
-                    <option {% if doctor.department == 'Neurology' %}selected{% endif %}>Neurology</option>
-                    <option {% if doctor.department == 'Orthopedics' %}selected{% endif %}>Orthopedics</option>
-                    <option {% if doctor.department == 'Pediatrics' %}selected{% endif %}>Pediatrics</option>
-                    <option {% if doctor.department == 'General Medicine' %}selected{% endif %}>General Medicine</option>
-                    <option {% if doctor.department == 'Dermatology' %}selected{% endif %}>Dermatology</option>
+                    {% for department in departments %}
+                    <option value="{{ department.id }}" {% if department.id == doctor.department_id %}selected{% endif %}>{{ department.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-md-6">

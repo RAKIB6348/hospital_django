@@ -11,7 +11,13 @@ class Doctor(models.Model):
         ('other', 'Other'),
     ], default='male')
     specialization = models.CharField(max_length=100)
-    department = models.CharField(max_length=100)
+    department = models.ForeignKey(
+        'department.Department',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='doctors',
+    )
     phone = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
     present_address = models.CharField(max_length=255, blank=True)

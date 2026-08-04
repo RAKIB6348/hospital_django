@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
+from department.models import Department
 from .models import Doctor, DoctorSchedule
 
 
@@ -23,7 +24,7 @@ def doctor_add(request):
             last_name=request.POST['last_name'],
             gender=request.POST['gender'],
             specialization=request.POST['specialization'],
-            department=request.POST['department'],
+            department=Department.objects.get(id=request.POST['department']),
             phone=request.POST['phone'],
             email=request.POST['email'],
             present_address=request.POST['present_address'],
@@ -39,7 +40,8 @@ def doctor_add(request):
             available=request.POST.get('available') == 'on',
         )
         return redirect('doctor:doctor_list')
-    return render(request, 'doctor/doctor_add.html')
+    departments = Department.objects.all()
+    return render(request, 'doctor/doctor_add.html', {'departments': departments})
 
 
 def doctor_edit(request, doctor_id):
@@ -51,7 +53,7 @@ def doctor_edit(request, doctor_id):
         doctor.last_name = request.POST['last_name']
         doctor.gender = request.POST['gender']
         doctor.specialization = request.POST['specialization']
-        doctor.department = request.POST['department']
+        doctor.department = Department.objects.get(id=request.POST['department'])
         doctor.phone = request.POST['phone']
         doctor.email = request.POST['email']
         doctor.present_address = request.POST['present_address']
@@ -67,7 +69,8 @@ def doctor_edit(request, doctor_id):
         doctor.available = request.POST.get('available') == 'on'
         doctor.save()
         return redirect('doctor:doctor_list')
-    return render(request, 'doctor/doctor_edit.html', {'doctor': doctor})
+    departments = Department.objects.all()
+    return render(request, 'doctor/doctor_edit.html', {'doctor': doctor, 'departments': departments})
 
 
 def doctor_delete(request, doctor_id):
