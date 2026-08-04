@@ -19,6 +19,7 @@ class Appointment(models.Model):
         blank=True,
         related_name='appointments',
     )
+    consultation_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     date = models.DateField()
     time = models.TimeField()
     phone = models.CharField(max_length=20, blank=True)

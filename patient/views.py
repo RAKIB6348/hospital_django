@@ -126,6 +126,7 @@ def appointment_form(request):
             department=department.name,
             doctor=doctor.full_name,
             schedule=schedule,
+            consultation_fee=doctor.fee,
             date=date,
             time=schedule.start_time,
             phone=request.POST['phone'],
@@ -179,6 +180,7 @@ def appointment_edit(request, appointment_id):
         appointment.department = department.name
         appointment.doctor = doctor.full_name
         appointment.schedule = schedule
+        appointment.consultation_fee = doctor.fee
         appointment.date = date
         appointment.time = schedule.start_time
         appointment.phone = request.POST['phone']
@@ -215,33 +217,15 @@ def doctors_by_department(request):
     ]})
 
 
-def schedules_by_doctor(request):
-    doctor_id = request.GET.get('doctor_id')
-    if not doctor_id:
-        return JsonResponse({'schedules': []})
-    schedules = DoctorSchedule.objects.filter(
-        doctor_id=doctor_id,
-        available=True,
-    )
-    date = request.GET.get('date')
-    if date:
-        try:
-            parsed = datetime.date.fromisoformat(date)
-        except ValueError:
-            parsed = None
-        if parsed:
-            weekday = parsed.weekday()
-            schedules = [
-                s for s in schedules if DAY_INDEX.get(s.day_of_week) == weekday
-            ]
-            booked = set(Appointment.objects.filter(
-                schedule_id__in=[s.id for s in schedules],
-                date=parsed,
-            ).values_list('schedule_id', flat=True))
-            schedules = [s for s in schedules if s.id not in booked]
-    return JsonResponse({'schedules': [
-        {'id': s.id, 'label': schedule_label(s)} for s in schedules
-    ]})
+def doctor_info(request, doctor_id):
+    doctor = get_object_or_404(Doctor, id=doctor_id)
+    schedules = DoctorSchedule.objects.filter(doctor=doctor, available=True)
+    return JsonResponse({
+        'consultation_fee': f'{doctor.fee:.2f}',
+        'schedules': [
+            {'id': s.id, 'label': schedule_label(s)} for s in schedules
+        ],
+    })
 
 
 def department(request):

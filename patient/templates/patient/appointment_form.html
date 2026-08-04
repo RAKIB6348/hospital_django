@@ -37,7 +37,7 @@
             </div>
             <div>
                 <label class="field-label" for="department">Department</label>
-                <select id="department" name="department" required onchange="loadDoctors()">
+                <select id="department" name="department" required onchange="onDepartmentChange()">
                     <option value="">Select department</option>
                     {% for department in departments %}
                     <option value="{{ department.id }}" {% if selected_department_id == department.id %}selected{% endif %}>{{ department.name }}</option>
@@ -46,20 +46,23 @@
             </div>
             <div>
                 <label class="field-label" for="doctor">Doctor</label>
-                <select id="doctor" name="doctor" required onchange="loadSchedules()">
+                <select id="doctor" name="doctor" required onchange="loadDoctorInfo()">
                     <option value="">Select doctor</option>
                 </select>
             </div>
             <div>
+                <label class="field-label" for="fee">Consultation Fee</label>
+                <input type="text" id="fee" name="consultation_fee" readonly tabindex="-1" style="background-color:#f1f3f5; cursor:not-allowed;" placeholder="৳ 0.00">
+            </div>
+            <div>
                 <label class="field-label" for="date">Date</label>
-                <input type="date" id="date" name="date" value="{{ form_data.date|default:'' }}" required onchange="loadSchedules()">
+                <input type="date" id="date" name="date" value="{{ form_data.date|default:'' }}" required>
             </div>
             <div>
                 <label class="field-label" for="schedule">Schedule</label>
                 <select id="schedule" name="schedule" required>
-                    <option value="">Select schedule</option>
+                    <option value="">Select a doctor first</option>
                 </select>
-                <small style="color:#607d8b;">Shows the doctor's weekly time slots for the selected date.</small>
             </div>
             <div>
                 <label class="field-label" for="phone">Phone</label>
@@ -77,17 +80,32 @@
 <script>
     var doctorId = {{ selected_doctor_id|default:'null' }};
     var scheduleId = {{ selected_schedule_id|default:'null' }};
+    var doctorInfoUrl = "{% url 'doctor_info' 999999 %}".replace('999999', '');
+
+    function resetSchedule() {
+        document.getElementById('schedule').innerHTML = '<option value="">Select a doctor first</option>';
+    }
+
+    function resetDoctor() {
+        document.getElementById('doctor').innerHTML = '<option value="">Select doctor</option>';
+        document.getElementById('fee').value = '';
+        resetSchedule();
+    }
+
+    function onDepartmentChange() {
+        doctorId = null;
+        scheduleId = null;
+        loadDoctors();
+    }
 
     function loadDoctors() {
         var dept = document.getElementById('department').value;
-        var doctorSel = document.getElementById('doctor');
-        var scheduleSel = document.getElementById('schedule');
-        doctorSel.innerHTML = '<option value="">Select doctor</option>';
-        scheduleSel.innerHTML = '<option value="">Select schedule</option>';
+        resetDoctor();
         if (!dept) return;
         fetch("{% url 'doctors_by_department' %}?department_id=" + dept)
             .then(function (r) { return r.json(); })
             .then(function (data) {
+                var doctorSel = document.getElementById('doctor');
                 data.doctors.forEach(function (d) {
                     var opt = document.createElement('option');
                     opt.value = d.id;
@@ -95,21 +113,30 @@
                     if (doctorId && String(d.id) === String(doctorId)) opt.selected = true;
                     doctorSel.appendChild(opt);
                 });
-                loadSchedules();
+                if (doctorSel.value) {
+                    loadDoctorInfo();
+                } else {
+                    resetSchedule();
+                }
             });
     }
 
-    function loadSchedules() {
+    function loadDoctorInfo() {
         var doc = document.getElementById('doctor').value;
-        var date = document.getElementById('date').value;
-        var scheduleSel = document.getElementById('schedule');
-        scheduleSel.innerHTML = '<option value="">Select schedule</option>';
+        var feeInput = document.getElementById('fee');
+        feeInput.value = '';
+        resetSchedule();
         if (!doc) return;
-        var url = "{% url 'schedules_by_doctor' %}?doctor_id=" + doc;
-        if (date) url += '&date=' + date;
-        fetch(url)
+        fetch(doctorInfoUrl + doc + '/')
             .then(function (r) { return r.json(); })
             .then(function (data) {
+                feeInput.value = '৳ ' + data.consultation_fee;
+                var scheduleSel = document.getElementById('schedule');
+                if (data.schedules.length === 0) {
+                    scheduleSel.innerHTML = '<option value="">No schedule available</option>';
+                    return;
+                }
+                scheduleSel.innerHTML = '<option value="">Select schedule</option>';
                 data.schedules.forEach(function (s) {
                     var opt = document.createElement('option');
                     opt.value = s.id;
