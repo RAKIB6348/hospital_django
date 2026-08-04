@@ -10,12 +10,17 @@
         * { box-sizing: border-box; }
         body { font-family: sans-serif; margin: 0; background: #f4f6f9; color: #333; display: flex; min-height: 100vh; }
         .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 220px;
+            height: 100vh;
+            overflow-y: auto;
             background: #0d47a1;
             color: white;
             padding-top: 20px;
-            flex-shrink: 0;
             transition: margin-left 0.3s ease;
+            z-index: 99;
         }
         .sidebar.collapsed { margin-left: -220px; }
         .sidebar h2 { text-align: center; font-size: 18px; padding: 0 10px; margin: 0 0 20px; }
@@ -28,7 +33,13 @@
         }
         .sidebar a i { width: 20px; margin-right: 10px; text-align: center; }
         .sidebar a:hover, .sidebar a.active { background: #1565c0; border-left-color: #ffc107; }
-        .main { flex: 1; }
+        .main {
+            flex: 1;
+            margin-left: 220px;
+            transition: margin-left 0.3s ease;
+            min-width: 0;
+        }
+        body > .sidebar.collapsed ~ .main { margin-left: 0; }
         .main header { background: #1565c0; color: white; padding: 18px 24px; }
         .main header h1 { margin: 0; font-size: 22px; }
         .container { padding: 24px; }
@@ -114,12 +125,18 @@
                 cursor: pointer;
             }
             .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
                 width: 220px;
+                height: 100vh;
                 margin-left: -220px;
                 display: block;
                 padding-top: 10px;
+                z-index: 99;
             }
             .sidebar.open { margin-left: 0; }
+            .main { margin-left: 0; }
             .main header { padding: 14px 14px 14px 54px; }
             .main header h1 { font-size: 18px; }
             .container { padding: 14px; }
