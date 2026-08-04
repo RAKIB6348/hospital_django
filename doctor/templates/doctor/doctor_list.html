@@ -41,7 +41,13 @@
                 <td>{{ doctor.education }}</td>
                 <td>{{ doctor.experience_years }}</td>
                 <td>{{ doctor.fee }}</td>
-                <td>{% if doctor.available %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    {% if doctor.available %}
+                    <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">Available</span>
+                    {% else %}
+                    <span style="background: #fdecea; color: #c62828; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">Unavailable</span>
+                    {% endif %}
+                </td>
                 <td>
                     <a href="{% url 'doctor:doctor_edit' doctor.id %}" style="background: #0d47a1; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Edit</a>
                     <a href="{% url 'doctor:doctor_delete' doctor.id %}" style="background: #d32f2f; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Delete</a>

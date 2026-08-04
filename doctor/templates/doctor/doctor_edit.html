@@ -66,8 +66,12 @@
                 <input type="text" id="education" name="education" value="{{ doctor.education }}">
             </div>
         </div>
-        <div>
-            <label><input type="checkbox" name="available" {% if doctor.available %}checked{% endif %}> Available</label>
+        <div style="margin-top: 20px;">
+            <label class="toggle">
+                <input type="checkbox" name="available" {% if doctor.available %}checked{% endif %}>
+                <span class="slider"></span>
+                Available
+            </label>
         </div>
         <button type="submit">Update Doctor</button>
         <a href="{% url 'doctor:doctor_list' %}" style="margin-top: 20px; display: inline-block; padding: 10px 24px; background: #d32f2f; color: white; text-decoration: none; border-radius: 4px;">Cancel</a>
