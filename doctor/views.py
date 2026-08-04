@@ -21,6 +21,7 @@ def doctor_add(request):
             education=request.POST['education'],
             experience_years=request.POST['experience_years'],
             fee=request.POST['fee'],
+            joining_date=request.POST.get('joining_date') or None,
             available=request.POST.get('available') == 'on',
         )
         return redirect('doctor:doctor_list')
@@ -41,6 +42,7 @@ def doctor_edit(request, doctor_id):
         doctor.education = request.POST['education']
         doctor.experience_years = request.POST['experience_years']
         doctor.fee = request.POST['fee']
+        doctor.joining_date = request.POST.get('joining_date') or None
         doctor.available = request.POST.get('available') == 'on'
         doctor.save()
         return redirect('doctor:doctor_list')
