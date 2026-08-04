@@ -6,67 +6,122 @@
 {% block content %}
 <div class="card">
     <h2>Register New Appointment</h2>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+    </div>
+    {% endif %}
     <form method="post" action="{% url 'appointment_form' %}">
         {% csrf_token %}
         <div class="form-grid">
             <div>
-                <label for="patient_name">Patient Name</label>
-                <input type="text" id="patient_name" name="patient_name" required>
+                <label class="field-label" for="patient_name">Patient Name</label>
+                <input type="text" id="patient_name" name="patient_name" value="{{ form_data.patient_name|default:'' }}" required>
             </div>
             <div>
-                <label for="patient_age">Age</label>
-                <input type="number" id="patient_age" name="patient_age" min="0" max="150" required>
+                <label class="field-label" for="patient_age">Age</label>
+                <input type="number" id="patient_age" name="patient_age" min="0" max="150" value="{{ form_data.patient_age|default:'' }}" required>
             </div>
             <div>
-                <label for="gender">Gender</label>
+                <label class="field-label" for="gender">Gender</label>
                 <select id="gender" name="gender" required>
                     <option value="">Select gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="male" {% if form_data.gender == 'male' %}selected{% endif %}>Male</option>
+                    <option value="female" {% if form_data.gender == 'female' %}selected{% endif %}>Female</option>
+                    <option value="other" {% if form_data.gender == 'other' %}selected{% endif %}>Other</option>
                 </select>
             </div>
             <div>
-                <label for="address">Address</label>
-                <input type="text" id="address" name="address">
+                <label class="field-label" for="address">Address</label>
+                <input type="text" id="address" name="address" value="{{ form_data.address|default:'' }}">
             </div>
             <div>
-                <label for="department">Department</label>
-                <select id="department" name="department" required>
+                <label class="field-label" for="department">Department</label>
+                <select id="department" name="department" required onchange="loadDoctors()">
                     <option value="">Select department</option>
                     {% for department in departments %}
-                    <option value="{{ department.name }}">{{ department.name }}</option>
+                    <option value="{{ department.id }}" {% if selected_department_id == department.id %}selected{% endif %}>{{ department.name }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div>
-                <label for="doctor">Doctor</label>
-                <select id="doctor" name="doctor" required>
+                <label class="field-label" for="doctor">Doctor</label>
+                <select id="doctor" name="doctor" required onchange="loadSchedules()">
                     <option value="">Select doctor</option>
-                    {% for doctor in doctors %}
-                    <option value="{{ doctor.full_name }}">{{ doctor.full_name }}</option>
-                    {% endfor %}
                 </select>
             </div>
             <div>
-                <label for="date">Date</label>
-                <input type="date" id="date" name="date" required>
+                <label class="field-label" for="date">Date</label>
+                <input type="date" id="date" name="date" value="{{ form_data.date|default:'' }}" required onchange="loadSchedules()">
             </div>
             <div>
-                <label for="time">Time</label>
-                <input type="time" id="time" name="time" required>
+                <label class="field-label" for="schedule">Schedule</label>
+                <select id="schedule" name="schedule" required>
+                    <option value="">Select schedule</option>
+                </select>
+                <small style="color:#607d8b;">Shows the doctor's weekly time slots for the selected date.</small>
             </div>
             <div>
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone">
+                <label class="field-label" for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" value="{{ form_data.phone|default:'' }}">
             </div>
             <div>
-                <label for="reason">Reason for Visit</label>
-                <input type="text" id="reason" name="reason">
+                <label class="field-label" for="reason">Reason for Visit</label>
+                <input type="text" id="reason" name="reason" value="{{ form_data.reason|default:'' }}">
             </div>
         </div>
         <button type="submit">Book Appointment</button>
         <a href="{% url 'appointment_list' %}" style="margin-top: 20px; display: inline-block; padding: 10px 24px; background: #e63535; color: #fff; text-decoration: none; border-radius: 4px;">Cancel</a>
     </form>
 </div>
+<script>
+    var doctorId = {{ selected_doctor_id|default:'null' }};
+    var scheduleId = {{ selected_schedule_id|default:'null' }};
+
+    function loadDoctors() {
+        var dept = document.getElementById('department').value;
+        var doctorSel = document.getElementById('doctor');
+        var scheduleSel = document.getElementById('schedule');
+        doctorSel.innerHTML = '<option value="">Select doctor</option>';
+        scheduleSel.innerHTML = '<option value="">Select schedule</option>';
+        if (!dept) return;
+        fetch("{% url 'doctors_by_department' %}?department_id=" + dept)
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                data.doctors.forEach(function (d) {
+                    var opt = document.createElement('option');
+                    opt.value = d.id;
+                    opt.text = d.name;
+                    if (doctorId && String(d.id) === String(doctorId)) opt.selected = true;
+                    doctorSel.appendChild(opt);
+                });
+                loadSchedules();
+            });
+    }
+
+    function loadSchedules() {
+        var doc = document.getElementById('doctor').value;
+        var date = document.getElementById('date').value;
+        var scheduleSel = document.getElementById('schedule');
+        scheduleSel.innerHTML = '<option value="">Select schedule</option>';
+        if (!doc) return;
+        var url = "{% url 'schedules_by_doctor' %}?doctor_id=" + doc;
+        if (date) url += '&date=' + date;
+        fetch(url)
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                data.schedules.forEach(function (s) {
+                    var opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.text = s.label;
+                    if (scheduleId && String(s.id) === String(scheduleId)) opt.selected = true;
+                    scheduleSel.appendChild(opt);
+                });
+            });
+    }
+
+    if (document.getElementById('department').value) {
+        loadDoctors();
+    }
+</script>
 {% endblock %}

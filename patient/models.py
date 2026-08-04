@@ -12,6 +12,13 @@ class Appointment(models.Model):
     address = models.CharField(max_length=255, blank=True)
     department = models.CharField(max_length=100)
     doctor = models.CharField(max_length=100)
+    schedule = models.ForeignKey(
+        'doctor.DoctorSchedule',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='appointments',
+    )
     date = models.DateField()
     time = models.TimeField()
     phone = models.CharField(max_length=20, blank=True)

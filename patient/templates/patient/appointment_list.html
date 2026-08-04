@@ -19,7 +19,7 @@
                 <th>Department</th>
                 <th>Doctor</th>
                 <th>Date</th>
-                <th>Time</th>
+                <th>Schedule</th>
                 <th>Phone</th>
                 <th>Reason</th>
                 <th>Action</th>
@@ -35,7 +35,13 @@
                 <td>{{ appointment.department }}</td>
                 <td>{{ appointment.doctor }}</td>
                 <td>{{ appointment.date }}</td>
-                <td>{{ appointment.time }}</td>
+                <td>
+                    {% if appointment.schedule %}
+                    {{ appointment.schedule.get_day_of_week_display }} — {{ appointment.schedule.start_time|time:'g:i A' }} to {{ appointment.schedule.end_time|time:'g:i A' }}
+                    {% else %}
+                    {{ appointment.time|time:'g:i A' }}
+                    {% endif %}
+                </td>
                 <td>{{ appointment.phone }}</td>
                 <td>{{ appointment.reason }}</td>
                 <td>
