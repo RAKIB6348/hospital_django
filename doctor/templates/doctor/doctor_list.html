@@ -22,6 +22,7 @@
                 <th>Permanent Address</th>
                 <th>Education</th>
                 <th>Experience (yrs)</th>
+                <th>Fee</th>
                 <th>Available</th>
                 <th>Action</th>
             </tr>
@@ -39,6 +40,7 @@
                 <td>{{ doctor.permanent_address }}</td>
                 <td>{{ doctor.education }}</td>
                 <td>{{ doctor.experience_years }}</td>
+                <td>{{ doctor.fee }}</td>
                 <td>{% if doctor.available %}Yes{% else %}No{% endif %}</td>
                 <td>
                     <a href="{% url 'doctor:doctor_edit' doctor.id %}" style="background: #0d47a1; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Edit</a>
@@ -46,7 +48,7 @@
                 </td>
             </tr>
             {% empty %}
-            <tr><td colspan="12">No doctors registered yet.</td></tr>
+            <tr><td colspan="13">No doctors registered yet.</td></tr>
             {% endfor %}
         </tbody>
     </table>

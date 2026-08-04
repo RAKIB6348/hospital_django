@@ -20,6 +20,7 @@ def doctor_add(request):
             permanent_address=request.POST['permanent_address'],
             education=request.POST['education'],
             experience_years=request.POST['experience_years'],
+            fee=request.POST['fee'],
             available=request.POST.get('available') == 'on',
         )
         return redirect('doctor:doctor_list')
@@ -39,6 +40,7 @@ def doctor_edit(request, doctor_id):
         doctor.permanent_address = request.POST['permanent_address']
         doctor.education = request.POST['education']
         doctor.experience_years = request.POST['experience_years']
+        doctor.fee = request.POST['fee']
         doctor.available = request.POST.get('available') == 'on'
         doctor.save()
         return redirect('doctor:doctor_list')

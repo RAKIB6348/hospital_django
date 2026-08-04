@@ -16,6 +16,7 @@ class Doctor(models.Model):
     permanent_address = models.CharField(max_length=255, blank=True)
     education = models.CharField(max_length=255, blank=True)
     experience_years = models.PositiveIntegerField(default=0)
+    fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
