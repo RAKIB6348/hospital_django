@@ -25,17 +25,7 @@
                 <th>Department</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>Present Address</th>
-                <th>Permanent Address</th>
-                <th>Education</th>
-                <th>Experience (yrs)</th>
                 <th>Fee</th>
-                <th>Wage</th>
-                <th>Allowance</th>
-                <th>Contract Start</th>
-                <th>Contract End</th>
-                <th>Joining Date</th>
-                <th>Available</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -57,30 +47,14 @@
                 <td>{{ doctor.department }}</td>
                 <td>{{ doctor.phone }}</td>
                 <td>{{ doctor.email }}</td>
-                <td>{{ doctor.present_address }}</td>
-                <td>{{ doctor.permanent_address }}</td>
-                <td>{{ doctor.education }}</td>
-                <td>{{ doctor.experience_years }}</td>
                 <td>{{ doctor.fee }}</td>
-                <td>{{ doctor.wage }}</td>
-                <td>{{ doctor.allowance }}</td>
-                <td>{{ doctor.contract_start|date:'d M Y' }}</td>
-                <td>{{ doctor.contract_end|date:'d M Y' }}</td>
-                <td>{{ doctor.joining_date|date:'d M Y' }}</td>
-                <td>
-                    {% if doctor.available %}
-                    <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">Available</span>
-                    {% else %}
-                    <span style="background: #fdecea; color: #c62828; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">Unavailable</span>
-                    {% endif %}
-                </td>
                 <td>
                     <a href="{% url 'doctor:doctor_edit' doctor.id %}" style="background: #0d47a1; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Edit</a>
                     <a href="{% url 'doctor:doctor_delete' doctor.id %}" style="background: #d32f2f; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Delete</a>
                 </td>
             </tr>
             {% empty %}
-            <tr><td colspan="19">No doctors registered yet.</td></tr>
+            <tr><td colspan="9">No doctors registered yet.</td></tr>
             {% endfor %}
         </tbody>
     </table>
