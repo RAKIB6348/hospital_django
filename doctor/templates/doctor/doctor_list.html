@@ -5,9 +5,15 @@
 
 {% block content %}
 <div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px; flex-wrap: wrap;">
         <h2 style="margin: 0;">All Doctors</h2>
-        <a href="{% url 'doctor:doctor_add' %}" style="background: #0d47a1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">+ Add Doctor</a>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <form method="get" action="{% url 'doctor:doctor_list' %}" style="display: flex; gap: 8px; margin: 0;">
+                <input type="text" name="q" value="{{ q }}" placeholder="Search by name..." style="width: 220px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; margin: 0;">
+                <button type="submit" style="background: #0d47a1; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin: 0;"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="{% url 'doctor:doctor_add' %}" style="background: #0d47a1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">+ Add Doctor</a>
+        </div>
     </div>
     <table>
         <thead>
@@ -38,14 +44,14 @@
             <tr>
                 <td>
                     {% if doctor.image %}
-                    <img src="{{ doctor.image.url }}" alt="{{ doctor.name }}" style="width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 1px solid #e0e0e0; box-shadow: 0 1px 3px rgba(0,0,0,0.15);">
+                    <img src="{{ doctor.image.url }}" alt="{{ doctor.full_name }}" style="width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 1px solid #e0e0e0; box-shadow: 0 1px 3px rgba(0,0,0,0.15);">
                     {% else %}
                     <span style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 6px; background: #e3f2fd; border: 1px solid #bbdefb;">
                         <i class="fas fa-user-md" style="font-size: 20px; color: #0d47a1;"></i>
                     </span>
                     {% endif %}
                 </td>
-                <td>{{ doctor.name }}</td>
+                <td>{{ doctor.full_name }}</td>
                 <td>{{ doctor.get_gender_display }}</td>
                 <td>{{ doctor.specialization }}</td>
                 <td>{{ doctor.department }}</td>

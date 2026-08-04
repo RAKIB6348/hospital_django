@@ -3,7 +3,8 @@ from django.db import models
 
 class Doctor(models.Model):
     image = models.ImageField(upload_to='doctor_images/', blank=True, null=True)
-    name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, blank=True)
     gender = models.CharField(max_length=10, choices=[
         ('male', 'Male'),
         ('female', 'Female'),
@@ -26,5 +27,9 @@ class Doctor(models.Model):
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def full_name(self):
+        return ' '.join(part for part in (self.first_name, self.last_name) if part)
+
     def __str__(self):
-        return self.name
+        return self.full_name

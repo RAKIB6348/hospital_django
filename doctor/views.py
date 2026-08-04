@@ -1,17 +1,26 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Doctor
 
 
 def doctor_list(request):
     doctors = Doctor.objects.all()
-    return render(request, 'doctor/doctor_list.html', {'doctors': doctors})
+    q = request.GET.get('q', '').strip()
+    if q:
+        query = Q(first_name__icontains=q) | Q(last_name__icontains=q)
+        parts = q.split()
+        if len(parts) >= 2:
+            query |= Q(first_name__icontains=parts[0], last_name__icontains=' '.join(parts[1:]))
+        doctors = doctors.filter(query)
+    return render(request, 'doctor/doctor_list.html', {'doctors': doctors, 'q': q})
 
 
 def doctor_add(request):
     if request.method == 'POST':
         Doctor.objects.create(
             image=request.FILES.get('image'),
-            name=request.POST['name'],
+            first_name=request.POST['first_name'],
+            last_name=request.POST['last_name'],
             gender=request.POST['gender'],
             specialization=request.POST['specialization'],
             department=request.POST['department'],
@@ -38,7 +47,8 @@ def doctor_edit(request, doctor_id):
     if request.method == 'POST':
         if request.FILES.get('image'):
             doctor.image = request.FILES['image']
-        doctor.name = request.POST['name']
+        doctor.first_name = request.POST['first_name']
+        doctor.last_name = request.POST['last_name']
         doctor.gender = request.POST['gender']
         doctor.specialization = request.POST['specialization']
         doctor.department = request.POST['department']

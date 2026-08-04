@@ -18,7 +18,7 @@
                 <select id="head_doctor" name="head_doctor" required>
                     <option value="">Select doctor</option>
                     {% for doctor in doctors %}
-                    <option value="{{ doctor.name }}" {% if doctor.name == department.head_doctor %}selected{% endif %}>{{ doctor.name }}</option>
+                    <option value="{{ doctor.full_name }}" {% if doctor.full_name == department.head_doctor %}selected{% endif %}>{{ doctor.full_name }}</option>
                     {% endfor %}
                 </select>
             </div>

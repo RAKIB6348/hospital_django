@@ -30,8 +30,12 @@
         </div>
         <div class="row g-3 mt-1">
             <div class="col-md-6">
-                <label for="name" class="field-label">Full Name</label>
-                <input type="text" id="name" name="name" value="{{ doctor.name }}" required>
+                <label for="first_name" class="field-label">First Name</label>
+                <input type="text" id="first_name" name="first_name" value="{{ doctor.first_name }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="last_name" class="field-label">Last Name</label>
+                <input type="text" id="last_name" name="last_name" value="{{ doctor.last_name }}">
             </div>
             <div class="col-md-6">
                 <label for="gender" class="field-label">Gender</label>
