@@ -83,7 +83,19 @@ def dashboard(request):
 
 def appointment_list(request):
     appointments = Appointment.objects.all().order_by('-date', '-time')
-    return render(request, 'patient/appointment_list.html', {'appointments': appointments})
+    q = request.GET.get('q', '').strip()
+    if q:
+        appointments = appointments.filter(
+            Q(patient_name__icontains=q)
+            | Q(phone__icontains=q)
+            | Q(department__icontains=q)
+            | Q(doctor__icontains=q)
+            | Q(reason__icontains=q)
+        )
+    return render(request, 'patient/appointment_list.html', {
+        'appointments': appointments,
+        'q': q,
+    })
 
 
 def appointment_form(request):
