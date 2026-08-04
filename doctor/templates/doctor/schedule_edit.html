@@ -1,0 +1,56 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Edit Schedule{% endblock %}
+{% block page_title %}Edit Schedule{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Edit Schedule</h2>
+    <form method="post" action="{% url 'doctor:schedule_edit' schedule.id %}">
+        {% csrf_token %}
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="doctor" class="field-label">Doctor</label>
+                <select id="doctor" name="doctor" required>
+                    <option value="">Select doctor</option>
+                    {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}" {% if doctor.id == schedule.doctor_id %}selected{% endif %}>{{ doctor.full_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="day_of_week" class="field-label">Day of Week</label>
+                <select id="day_of_week" name="day_of_week" required>
+                    <option value="">Select day</option>
+                    <option value="monday" {% if schedule.day_of_week == 'monday' %}selected{% endif %}>Monday</option>
+                    <option value="tuesday" {% if schedule.day_of_week == 'tuesday' %}selected{% endif %}>Tuesday</option>
+                    <option value="wednesday" {% if schedule.day_of_week == 'wednesday' %}selected{% endif %}>Wednesday</option>
+                    <option value="thursday" {% if schedule.day_of_week == 'thursday' %}selected{% endif %}>Thursday</option>
+                    <option value="friday" {% if schedule.day_of_week == 'friday' %}selected{% endif %}>Friday</option>
+                    <option value="saturday" {% if schedule.day_of_week == 'saturday' %}selected{% endif %}>Saturday</option>
+                    <option value="sunday" {% if schedule.day_of_week == 'sunday' %}selected{% endif %}>Sunday</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="start_time" class="field-label">Start Time</label>
+                <input type="time" id="start_time" name="start_time" value="{{ schedule.start_time|time:'H:i' }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="end_time" class="field-label">End Time</label>
+                <input type="time" id="end_time" name="end_time" value="{{ schedule.end_time|time:'H:i' }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="toggle">
+                    <input type="checkbox" name="available" {% if schedule.available %}checked{% endif %}>
+                    <span class="slider"></span>
+                    Available
+                </label>
+            </div>
+        </div>
+        <div style="margin-top: 24px;">
+            <button type="submit">Update Schedule</button>
+            <a href="{% url 'doctor:schedule_list' %}" style="margin-top: 20px; display: inline-block; padding: 10px 24px; background: #d32f2f; color: white; text-decoration: none; border-radius: 4px;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

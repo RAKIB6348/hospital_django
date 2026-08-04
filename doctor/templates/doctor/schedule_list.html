@@ -1,0 +1,48 @@
+{% extends 'patient/base.html' %}
+
+{% block title %}Doctor Schedule List{% endblock %}
+{% block page_title %}Doctor Schedule List{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">Doctor Schedules</h2>
+        <a href="{% url 'doctor:schedule_add' %}" style="background: #0d47a1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">+ Add Schedule</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th>Day</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Available</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schedule in schedules %}
+            <tr>
+                <td>{{ schedule.doctor.full_name }}</td>
+                <td>{{ schedule.get_day_of_week_display }}</td>
+                <td>{{ schedule.start_time|time:'g:i A' }}</td>
+                <td>{{ schedule.end_time|time:'g:i A' }}</td>
+                <td>
+                    {% if schedule.available %}
+                    <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">Available</span>
+                    {% else %}
+                    <span style="background: #fdecea; color: #c62828; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">Unavailable</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'doctor:schedule_edit' schedule.id %}" style="background: #0d47a1; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Edit</a>
+                    <a href="{% url 'doctor:schedule_delete' schedule.id %}" style="background: #d32f2f; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">No schedules added yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

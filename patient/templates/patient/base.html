@@ -214,6 +214,7 @@
         <a href="{% url 'department:department_list' %}" class="{% if request.resolver_match.app_name == 'department' %}active{% endif %}"><i class="fas fa-building"></i>Department</a>
         <a href="{% url 'appointment_list' %}" class="{% if request.resolver_match.url_name == 'appointment_list' %}active{% endif %}"><i class="fas fa-calendar-check"></i>Appointments</a>
         <a href="{% url 'doctor:doctor_list' %}" class="{% if request.resolver_match.app_name == 'doctor' %}active{% endif %}"><i class="fas fa-user-md"></i>Doctors</a>
+        <a href="{% url 'doctor:schedule_list' %}" class="{% if request.resolver_match.url_name == 'schedule_list' %}active{% endif %}"><i class="fas fa-calendar-alt"></i>Schedule</a>
         <a href="{% url 'config:ward_list' %}" class="{% if request.resolver_match.url_name == 'ward_list' %}active{% endif %}"><i class="fas fa-door-open"></i>Ward</a>
         <a href="{% url 'config:bed_list' %}" class="{% if request.resolver_match.url_name == 'bed_list' %}active{% endif %}"><i class="fas fa-bed"></i>Bed</a>
         <a href="#"><i class="fas fa-chart-bar"></i>Reports</a>

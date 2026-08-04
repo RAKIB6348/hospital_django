@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Doctor
+from .models import Doctor, DoctorSchedule
 
 
 def doctor_list(request):
@@ -74,3 +74,42 @@ def doctor_delete(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
     doctor.delete()
     return redirect('doctor:doctor_list')
+
+
+def schedule_list(request):
+    schedules = DoctorSchedule.objects.select_related('doctor').all()
+    return render(request, 'doctor/schedule_list.html', {'schedules': schedules})
+
+
+def schedule_add(request):
+    if request.method == 'POST':
+        DoctorSchedule.objects.create(
+            doctor=Doctor.objects.get(id=request.POST['doctor']),
+            day_of_week=request.POST['day_of_week'],
+            start_time=request.POST['start_time'],
+            end_time=request.POST['end_time'],
+            available=request.POST.get('available') == 'on',
+        )
+        return redirect('doctor:schedule_list')
+    doctors = Doctor.objects.all()
+    return render(request, 'doctor/schedule_add.html', {'doctors': doctors})
+
+
+def schedule_edit(request, schedule_id):
+    schedule = get_object_or_404(DoctorSchedule, id=schedule_id)
+    if request.method == 'POST':
+        schedule.doctor = Doctor.objects.get(id=request.POST['doctor'])
+        schedule.day_of_week = request.POST['day_of_week']
+        schedule.start_time = request.POST['start_time']
+        schedule.end_time = request.POST['end_time']
+        schedule.available = request.POST.get('available') == 'on'
+        schedule.save()
+        return redirect('doctor:schedule_list')
+    doctors = Doctor.objects.all()
+    return render(request, 'doctor/schedule_edit.html', {'schedule': schedule, 'doctors': doctors})
+
+
+def schedule_delete(request, schedule_id):
+    schedule = get_object_or_404(DoctorSchedule, id=schedule_id)
+    schedule.delete()
+    return redirect('doctor:schedule_list')
