@@ -14,21 +14,8 @@
                 <input type="text" id="name" name="name" value="{{ department.name }}" required>
             </div>
             <div>
-                <label for="head_doctor">Head Doctor</label>
-                <select id="head_doctor" name="head_doctor" required>
-                    <option value="">Select doctor</option>
-                    {% for doctor in doctors %}
-                    <option value="{{ doctor.full_name }}" {% if doctor.full_name == department.head_doctor %}selected{% endif %}>{{ doctor.full_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
                 <label for="number_of_doctors">No. of Doctors</label>
                 <input type="number" id="number_of_doctors" name="number_of_doctors" min="0" value="{{ department.number_of_doctors }}" required>
-            </div>
-            <div>
-                <label for="available_beds">Available Beds</label>
-                <input type="number" id="available_beds" name="available_beds" min="0" value="{{ department.available_beds }}" required>
             </div>
         </div>
         <button type="submit">Update Department</button>
