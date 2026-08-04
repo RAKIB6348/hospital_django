@@ -14,7 +14,9 @@
             color: white;
             padding-top: 20px;
             flex-shrink: 0;
+            transition: margin-left 0.3s ease;
         }
+        .sidebar.collapsed { margin-left: -220px; }
         .sidebar h2 { text-align: center; font-size: 18px; padding: 0 10px; margin: 0 0 20px; }
         .sidebar a {
             display: block;
@@ -68,29 +70,43 @@
             padding: 10px 20px 10px 36px;
         }
         .dropdown a:hover { background: #1565c0; }
-        .menu-toggle { display: none; }
+        .menu-toggle {
+            position: fixed;
+            top: 12px;
+            left: 14px;
+            z-index: 100;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        .main header { padding-left: 60px; }
 
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .menu-toggle {
-                display: block;
+                color: #333;
                 position: fixed;
                 top: 12px;
-                right: 14px;
+                left: 14px;
                 z-index: 100;
-                background: none;
+                background: #0d47a1;
                 border: none;
+                border-radius: 4px;
+                padding: 8px 10px;
                 color: white;
-                font-size: 22px;
+                font-size: 18px;
                 cursor: pointer;
             }
             .sidebar {
-                width: 100%;
-                display: none;
+                width: 220px;
+                margin-left: -220px;
+                display: block;
                 padding-top: 10px;
             }
-            .sidebar.open { display: block; }
-            .main header { padding: 14px; }
+            .sidebar.open { margin-left: 0; }
+            .main header { padding: 14px 14px 14px 54px; }
             .main header h1 { font-size: 18px; }
             .container { padding: 14px; }
             .stats { flex-direction: column; gap: 14px; }
@@ -106,10 +122,10 @@
     </style>
 </head>
 <body>
-    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">
+    <button class="menu-toggle" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </button>
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <h2>Hospital</h2>
         <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
         <a href="{% url 'auth_user:user_list' %}" class="{% if request.resolver_match.app_name == 'auth_user' %}active{% endif %}"><i class="fas fa-user"></i>User</a>
@@ -130,6 +146,14 @@
         </div>
     </div>
     <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('open');
+            } else {
+                sidebar.classList.toggle('collapsed');
+            }
+        }
         document.querySelectorAll('.menu-item > a').forEach(function (link) {
             link.addEventListener('click', function () {
                 link.parentElement.classList.toggle('open');
