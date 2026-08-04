@@ -24,6 +24,10 @@
                 <th>Education</th>
                 <th>Experience (yrs)</th>
                 <th>Fee</th>
+                <th>Wage</th>
+                <th>Allowance</th>
+                <th>Contract Start</th>
+                <th>Contract End</th>
                 <th>Joining Date</th>
                 <th>Available</th>
                 <th>Action</th>
@@ -52,6 +56,10 @@
                 <td>{{ doctor.education }}</td>
                 <td>{{ doctor.experience_years }}</td>
                 <td>{{ doctor.fee }}</td>
+                <td>{{ doctor.wage }}</td>
+                <td>{{ doctor.allowance }}</td>
+                <td>{{ doctor.contract_start|date:'d M Y' }}</td>
+                <td>{{ doctor.contract_end|date:'d M Y' }}</td>
                 <td>{{ doctor.joining_date|date:'d M Y' }}</td>
                 <td>
                     {% if doctor.available %}
@@ -66,7 +74,7 @@
                 </td>
             </tr>
             {% empty %}
-            <tr><td colspan="15">No doctors registered yet.</td></tr>
+            <tr><td colspan="19">No doctors registered yet.</td></tr>
             {% endfor %}
         </tbody>
     </table>

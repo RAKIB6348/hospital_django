@@ -8,9 +8,15 @@
     <h2>Edit Doctor</h2>
     <form method="post" action="{% url 'doctor:doctor_edit' doctor.id %}" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <div class="row mt-4 mb-3">
+            <div class="col-12">
+                <h6 class="form-section-heading">Doctor Profile</h6>
+            </div>
+        </div>
         <div class="row g-3">
             <div class="col-md-4">
-                <label for="image" class="form-label fw-semibold">Profile Image</label>
+                <label for="image" class="field-label">Profile Image</label>
                 <label for="image" id="profileUpload" class="profile-upload {% if doctor.image %}has-image{% endif %}">
                     <span class="profile-placeholder">
                         <i class="fas fa-user-plus fa-3x"></i>
@@ -24,11 +30,11 @@
         </div>
         <div class="row g-3 mt-1">
             <div class="col-md-6">
-                <label for="name">Full Name</label>
+                <label for="name" class="field-label">Full Name</label>
                 <input type="text" id="name" name="name" value="{{ doctor.name }}" required>
             </div>
             <div class="col-md-6">
-                <label for="gender">Gender</label>
+                <label for="gender" class="field-label">Gender</label>
                 <select id="gender" name="gender" required>
                     <option value="male" {% if doctor.gender == 'male' %}selected{% endif %}>Male</option>
                     <option value="female" {% if doctor.gender == 'female' %}selected{% endif %}>Female</option>
@@ -36,11 +42,11 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <label for="specialization">Specialization</label>
+                <label for="specialization" class="field-label">Specialization</label>
                 <input type="text" id="specialization" name="specialization" value="{{ doctor.specialization }}" required>
             </div>
             <div class="col-md-6">
-                <label for="department">Department</label>
+                <label for="department" class="field-label">Department</label>
                 <select id="department" name="department" required>
                     <option value="">Select department</option>
                     <option {% if doctor.department == 'Cardiology' %}selected{% endif %}>Cardiology</option>
@@ -52,47 +58,90 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <label for="experience_years">Experience (years)</label>
+                <label for="experience_years" class="field-label">Experience (Years)</label>
                 <input type="number" id="experience_years" name="experience_years" min="0" value="{{ doctor.experience_years }}" required>
             </div>
+        </div>
+
+        <div class="row mt-4 mb-3">
+            <div class="col-12">
+                <h6 class="form-section-heading">Employment Details</h6>
+            </div>
+        </div>
+        <div class="row g-3">
             <div class="col-md-6">
-                <label for="fee">Consultation Fee</label>
+                <label for="fee" class="field-label">Consultation Fee</label>
                 <input type="number" id="fee" name="fee" step="0.01" min="0" value="{{ doctor.fee }}" required>
             </div>
             <div class="col-md-6">
-                <label for="joining_date">Joining Date</label>
+                <label for="wage" class="field-label">Monthly Wage</label>
+                <input type="number" id="wage" name="wage" step="0.01" min="0" value="{{ doctor.wage }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="allowance" class="field-label">Allowance</label>
+                <input type="number" id="allowance" name="allowance" step="0.01" min="0" value="{{ doctor.allowance }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="joining_date" class="field-label">Joining Date</label>
                 <input type="date" id="joining_date" name="joining_date" value="{{ doctor.joining_date|date:'Y-m-d' }}">
             </div>
             <div class="col-md-6">
-                <label for="phone">Phone</label>
+                <label for="contract_start" class="field-label">Contract Start Date</label>
+                <input type="date" id="contract_start" name="contract_start" value="{{ doctor.contract_start|date:'Y-m-d' }}">
+            </div>
+            <div class="col-md-6">
+                <label for="contract_end" class="field-label">Contract End Date</label>
+                <input type="date" id="contract_end" name="contract_end" value="{{ doctor.contract_end|date:'Y-m-d' }}">
+            </div>
+            <div class="col-md-6">
+                <label class="toggle">
+                    <input type="checkbox" name="available" {% if doctor.available %}checked{% endif %}>
+                    <span class="slider"></span>
+                    Available
+                </label>
+            </div>
+        </div>
+
+        <div class="row mt-4 mb-3">
+            <div class="col-12">
+                <h6 class="form-section-heading">Contact Information</h6>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="phone" class="field-label">Phone</label>
                 <input type="tel" id="phone" name="phone" value="{{ doctor.phone }}">
             </div>
             <div class="col-md-6">
-                <label for="email">Email</label>
+                <label for="email" class="field-label">Email</label>
                 <input type="email" id="email" name="email" value="{{ doctor.email }}">
             </div>
             <div class="col-md-6">
-                <label for="present_address">Present Address</label>
+                <label for="present_address" class="field-label">Present Address</label>
                 <input type="text" id="present_address" name="present_address" value="{{ doctor.present_address }}">
             </div>
             <div class="col-md-6">
-                <label for="permanent_address">Permanent Address</label>
+                <label for="permanent_address" class="field-label">Permanent Address</label>
                 <input type="text" id="permanent_address" name="permanent_address" value="{{ doctor.permanent_address }}">
             </div>
+        </div>
+
+        <div class="row mt-4 mb-3">
+            <div class="col-12">
+                <h6 class="form-section-heading">Education & Qualifications</h6>
+            </div>
+        </div>
+        <div class="row g-3">
             <div class="col-md-6">
-                <label for="education">Education</label>
+                <label for="education" class="field-label">Education</label>
                 <input type="text" id="education" name="education" value="{{ doctor.education }}">
             </div>
         </div>
-        <div style="margin-top: 20px;">
-            <label class="toggle">
-                <input type="checkbox" name="available" {% if doctor.available %}checked{% endif %}>
-                <span class="slider"></span>
-                Available
-            </label>
+
+        <div style="margin-top: 24px;">
+            <button type="submit">Update Doctor</button>
+            <a href="{% url 'doctor:doctor_list' %}" style="margin-top: 20px; display: inline-block; padding: 10px 24px; background: #d32f2f; color: white; text-decoration: none; border-radius: 4px;">Cancel</a>
         </div>
-        <button type="submit">Update Doctor</button>
-        <a href="{% url 'doctor:doctor_list' %}" style="margin-top: 20px; display: inline-block; padding: 10px 24px; background: #d32f2f; color: white; text-decoration: none; border-radius: 4px;">Cancel</a>
     </form>
 </div>
 {% endblock %}
